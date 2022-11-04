@@ -4,7 +4,7 @@
 
 using namespace std;
 
-extern int x_margin = 23, y_margin = 5;
+int x_margin = 23, y_margin = 5;
 void loadingBar()
 {
 	system("cls");
@@ -26,7 +26,7 @@ void loadingBar()
 	for(int i = 0; i < 30 ; i++)
 	{
 		cout<<b;
-		Sleep(105);
+		Sleep(5);
 	}
 	cout << "\n\n";
 	
