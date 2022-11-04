@@ -1,6 +1,5 @@
 #include<iostream>
 #include <string>
-#include "loading.cpp"
 
 #include "cpr.h"
 
