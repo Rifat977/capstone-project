@@ -26,7 +26,7 @@ void loadingBar()
 	for(int i = 0; i < 30 ; i++)
 	{
 		cout<<b;
-		Sleep(5);
+		Sleep(50);
 	}
 	cout << "\n\n";
 	
