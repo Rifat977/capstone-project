@@ -25,12 +25,27 @@ void print( Position pos, string s, int linelength )
    cout << s << '\n';
 }
 
+string encrypt(string str){
+	for(int i=0; i<str.length(); i++){
+        str[i] = char(str[i]+26);
+    }
+    return str;
+}
+
+string decrypt(string str){
+	for(int i=0; i<str.length(); i++){
+        str[i] = char(str[i]-26);
+    }
+    return str;
+}
+
 void createAccount(){
 	system("cls");
-	string fullName, username, password;
-	fstream fout;
-	//create account section
 	const int LINELENGTH = 75;
+	fstream fout, fin;
+	fin.open("user.csv", ios::in);
+	string fullName, username, password;
+	//create account section
 	string header( LINELENGTH, '=' );
 	cout << '\n';
 	print( CENTRE, "** Inventory Management System **", LINELENGTH );
@@ -58,16 +73,18 @@ void createAccount(){
 	fout.open("user.csv", ios::out | ios::app);
 	fout << fullName << "," 
 			<< username << "," 
-			<< password << "," 
+			<< encrypt(password) << "," 
 			<< "\n";
 	fout.close();
 	system("cls");
+	cout << "\n\n";
 	print(RIGHT, "Account created", LINELENGTH);
 	mainMenu();
 }
 
 void loginAccount(){
 	system("cls");
+	fstream fin; string file_text;
 	string username, password;
 	//login  section
 	const int LINELENGTH = 75;
@@ -78,12 +95,25 @@ void loginAccount(){
 	cout << '\n';
 	
 	//take user input for login	
-	cout << "\n\tUsername: "; cin >> username;
-	cout << "\n\tPassword: "; cin >> password;
+	cout << "\n\tUsername: "; cin.ignore();
+	getline(cin, username);
+	cout << "\n\tPassword: "; cin.ignore();
+	getline(cin, password);
+	fin.open("user.csv", ios::in);
+	while(getline(fin, file_text, ',')){
+		cout << file_text << " ";
+	}
 }
 
 void mainMenu(){
-	//main menu of this application
+	fstream fin; string line;
+    fin.open("user.csv", ios::in);
+    int checkUser = 0;
+    while(getline(fin, line, ',')){
+    	if(line != ""){
+    		checkUser++;
+		}
+	}
 	int input;
 	const int LINELENGTH = 75;
 	string header( LINELENGTH, '=' );
@@ -91,25 +121,22 @@ void mainMenu(){
 	print( CENTRE, "** Inventory Management System **", LINELENGTH );
 	print( RIGHT, "- Main Menu -", LINELENGTH );
 	cout << '\n';
-	print(LEFT, "\t[1] Create Account\n", LINELENGTH);
-	print(LEFT, "\t[2] Login\n", LINELENGTH);
+	print(LEFT, "\t[1] Login\n", LINELENGTH);
+	if(checkUser == 0)
+		print(LEFT, "\t[2] Create Account\n", LINELENGTH);
 	print(LEFT, "\t[0] Exit", LINELENGTH);
-	
-	fstream fin; string line;
-    fin.open("user.csv", ios::in);
-    while(getline(fin, line, ',')){
-    	if(line == "rifat"){
-    		cout << line;
-		}
-	}
     
 	
 	//take user input for choose menu
 	cout << "\n\tEnter your choice: ";
 	cin >> input;	
 	while(input != 0){
-		if(input==1) createAccount();
-		else if(input==2) loginAccount();
+		if(input==1) loginAccount();
+		else if(input==2){
+			if(checkUser == 0)
+				createAccount();
+			else print(RIGHT, "You have already registered", LINELENGTH);	
+		}
 		else print(RIGHT, "Invalid Command", LINELENGTH);
 		cout << "\n\tEnter your choice: ";
 		cin >> input;
