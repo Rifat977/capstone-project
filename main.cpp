@@ -13,7 +13,7 @@ enum Position{ LEFT, CENTRE, RIGHT };
 
 void mainMenu();
 
-void print( Position pos, string s, int linelength )
+void print(Position pos, string s, int linelength )
 {
    int spaces = 0;
    switch( pos )
@@ -84,6 +84,7 @@ void createAccount(){
 
 void loginAccount(){
 	system("cls");
+	vector<string> userInfo;
 	fstream fin; string file_text;
 	string username, password;
 	//login  section
@@ -97,11 +98,20 @@ void loginAccount(){
 	//take user input for login	
 	cout << "\n\tUsername: "; cin.ignore();
 	getline(cin, username);
-	cout << "\n\tPassword: "; cin.ignore();
+	cout << "\n\tPassword: "; cin.ignore(0);
 	getline(cin, password);
 	fin.open("user.csv", ios::in);
+	userInfo.clear();
 	while(getline(fin, file_text, ',')){
-		cout << file_text << " ";
+		userInfo.push_back(file_text);
+	}
+	cout << userInfo[1] << " " << decrypt(userInfo[2]);
+	if(username==userInfo[1] && password==decrypt(userInfo[2])) cout << "Logged In";
+	else{
+		system("cls");
+		cout << "\n";
+		print(CENTRE, "XX - Credentials are incorrect - XX", LINELENGTH );
+		mainMenu();	
 	}
 }
 
@@ -148,6 +158,5 @@ int main() {
 	loadingBar();
 	mainMenu();
 			
-	return 0;
 }
 
