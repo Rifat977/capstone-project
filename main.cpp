@@ -12,9 +12,9 @@ using namespace std;
 enum Position{ LEFT, CENTRE, RIGHT };
 
 void mainMenu();
+void dashboard();
 
-void print(Position pos, string s, int linelength )
-{
+void print(Position pos, string s, int linelength ){
    int spaces = 0;
    switch( pos )
    {
@@ -37,6 +37,25 @@ string decrypt(string str){
         str[i] = char(str[i]-26);
     }
     return str;
+}
+
+void dashboard(){
+	system("cls");
+	const int LINELENGTH = 75;
+	string header( LINELENGTH, '=' );
+	cout << '\n';
+	print( CENTRE, "** Inventory Management System **", LINELENGTH );
+	print( RIGHT, "- Dashboard -", LINELENGTH );
+	cout << '\n';
+	print(LEFT, "\t[1] Add Product\n", LINELENGTH);
+	print(LEFT, "\t[2] View Products\n", LINELENGTH);
+	print(LEFT, "\t[3] Search Product\n", LINELENGTH);
+	print(LEFT, "\t[4] Edit Product\n", LINELENGTH);
+	print(LEFT, "\t[5] Remove Product\n", LINELENGTH);
+	print(LEFT, "\t[6] Add Sale\n", LINELENGTH);
+	print(LEFT, "\t[7] Sale Report\n", LINELENGTH);
+	print(LEFT, "\t[8] Back\n", LINELENGTH);
+	print(LEFT, "\t[9] Exit\n", LINELENGTH);
 }
 
 void createAccount(){
@@ -106,7 +125,7 @@ void loginAccount(){
 		userInfo.push_back(file_text);
 	}
 	cout << userInfo[1] << " " << decrypt(userInfo[2]);
-	if(username==userInfo[1] && password==decrypt(userInfo[2])) cout << "Logged In";
+	if(username==userInfo[1] && password==decrypt(userInfo[2])) dashboard();
 	else{
 		system("cls");
 		cout << "\n";
