@@ -6,13 +6,14 @@
 
 #include "loading.cpp"
 #include "validation.cpp"
+#include "product.h"
 
 using namespace std;
 
-enum Position{ LEFT, CENTRE, RIGHT };
-
 void mainMenu();
 void dashboard();
+
+enum Position{ LEFT, CENTRE, RIGHT };
 
 void print(Position pos, string s, int linelength ){
    int spaces = 0;
@@ -40,7 +41,7 @@ string decrypt(string str){
 }
 
 void dashboard(){
-	system("cls");
+//	system("cls");
 	const int LINELENGTH = 75;
 	string header( LINELENGTH, '=' );
 	cout << '\n';
@@ -56,6 +57,24 @@ void dashboard(){
 	print(LEFT, "\t[7] Sale Report\n", LINELENGTH);
 	print(LEFT, "\t[8] Back\n", LINELENGTH);
 	print(LEFT, "\t[9] Exit\n", LINELENGTH);
+	char input; 
+	cout << "\n\tChoose Option: ";
+	cin >> input;
+	while(input!='0'){
+		if(input=='1'){
+			system("cls");
+			cout << '\n';
+			print( CENTRE, "** Inventory Management System **", LINELENGTH );
+			print( RIGHT, "- Add Product -", LINELENGTH );
+			cout << '\n';
+			addProduct();
+			dashboard();
+		}else{
+			system("cls");
+			print(RIGHT, "Invalid Command", LINELENGTH);
+			dashboard();
+		}
+	}
 }
 
 void createAccount(){
@@ -124,8 +143,10 @@ void loginAccount(){
 	while(getline(fin, file_text, ',')){
 		userInfo.push_back(file_text);
 	}
-	cout << userInfo[1] << " " << decrypt(userInfo[2]);
-	if(username==userInfo[1] && password==decrypt(userInfo[2])) dashboard();
+	if(username==userInfo[1] && password==decrypt(userInfo[2])){
+		system("cls");
+		dashboard();
+	}
 	else{
 		system("cls");
 		cout << "\n";
