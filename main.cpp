@@ -69,6 +69,14 @@ void dashboard(){
 			cout << '\n';
 			addProduct();
 			dashboard();
+		}else if(input=='2'){
+			system("cls");
+			cout << "\n";
+			print( CENTRE, "** Inventory Management System **", LINELENGTH );
+			print( RIGHT, "- All Products -", LINELENGTH );
+			cout << '\n';
+			viewProducts();
+			dashboard();
 		}else{
 			system("cls");
 			print(RIGHT, "Invalid Command", LINELENGTH);
@@ -194,7 +202,7 @@ void mainMenu(){
 }
 
 int main() {
-	
+	SetConsoleTitle(("Inventory Management System"));
 	loadingBar();
 	mainMenu();
 			
