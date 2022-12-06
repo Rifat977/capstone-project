@@ -77,6 +77,14 @@ void dashboard(){
 			cout << '\n';
 			viewProducts();
 			dashboard();
+		}else if(input=='3'){
+			system("cls");
+			cout << "\n";
+			print( CENTRE, "** Inventory Management System **", LINELENGTH );
+			print( RIGHT, "- Search Product -", LINELENGTH );
+			cout << '\n';
+			read_record();
+			dashboard();
 		}else{
 			system("cls");
 			print(RIGHT, "Invalid Command", LINELENGTH);

@@ -30,7 +30,8 @@ void addProduct(){
 		}
 	}
 	if(isExists==1){
-		fout.open("product.csv", ios::out | ios::app);
+		if(!productCode.empty() && !productName.empty() && !productPrice.empty() && !productStock.empty()){
+			fout.open("product.csv", ios::out | ios::app);
 		fout	<< productCode << "," 
 				<< productName << "," 
 				<< productPrice << "," 
@@ -38,6 +39,9 @@ void addProduct(){
 				<< "\n";
 		fout.close();
 		cout << "\n\t\t\tProduct Added Successfully\n";
+		}else{
+			cout << "\n\t\t\tProduct field doesn't empty\n";
+		}
 	}else{
 		cout << "\n\t\t\tProduct code already exists\n";
 	}
@@ -51,7 +55,10 @@ void viewProducts(){
 		fstream fin; string file_text = "";
 		vector<string> products;
 		fin.open("product.csv", ios::in);
-		while(getline(fin, file_text, ',')){
+		if(fin.fail()){
+			cout << "failed";
+		}else{
+			while(getline(fin, file_text, ',')){
 			products.push_back(file_text);
 		}
 		struct Product p1[products.size()];
@@ -63,16 +70,78 @@ void viewProducts(){
 			i+=3;
 		}
 		cout<<"--------------------------------------------------------------------------------"<<endl;
-		cout << "Code\t\t\t Name\t\t\t Price\t\t\t Stock\n";
+		cout << "Code\t\t Name\t\t\t Price\t\t Stock\n";
 		cout<<"--------------------------------------------------------------------------------\n"<<endl;
 		for(int i=0; i<products.size()/4; i++){
-			cout << p1[i].code << "\t\t\t" << p1[i].name << "\t\t\t" << p1[i].price << "\t\t\t" << p1[i].stock << "\n";
+			cout << p1[i].code << "\t\t" << p1[i].name << "\t\t" << p1[i].price << "\t\t" << p1[i].stock << "\n";
 		
 		}
 		cout<<"\n--------------------------------------------------------------------------------"<<endl;
-  	    cout<<">---->---->---->---->---->---->  FINISH  <----<----<---<----<----<----<----<---<"<<endl;
   		cout<<"--------------------------------------------------------------------------------"<<endl;
 		cout << "\n\t\tPress any key to back dashboard ... ";
 		char ch = getch();
 		system("cls");
+		}
+}
+
+//void searchProduct(){
+//		string pro_code;
+//		cout << "\n\tSearch product by code: "; cin.ignore();
+//		getline(cin, pro_code);
+//		
+//		fstream fin; string file_text = "";
+//		fin.open("product.csv", ios::in);
+//		if(fin.fail()){
+//			cout << "\n\tNo such file\n";
+//		}else{
+//			while(getline(fin, file_text, ',')){
+//				if(file_text==pro_code){
+//					cout << file_text;
+//				}
+//			}
+//  			cout<<"--------------------------------------------------------------------------------"<<endl;
+//			cout << "\n\t\tPress any key to back dashboard ... ";
+//			char ch = getch();
+//			system("cls");
+//		}
+//		
+//}
+
+void read_record()
+{
+    fstream fin;
+  
+    fin.open("product.csv", ios::in);
+  
+    string input_product, file_product; int count = 0;
+    cout << "Enter the product code: ";
+    cin >> input_product;
+  
+    vector<string> row;
+    string line, word, temp;
+  
+    while (fin >> temp) {
+  
+        row.clear();
+  
+        getline(fin, line);
+  
+        stringstream s(line);
+  
+        while (getline(s, word, ',')) {
+  
+            row.push_back(word);
+        }
+  
+        file_product = row[0];
+  
+        if (file_product == input_product) {
+  
+            count = 1;
+            cout << "Product code: " << row[0] << " : \n";
+            break;
+        }
+    }
+    if (count == 0)
+        cout << "Product not found\n";
 }
